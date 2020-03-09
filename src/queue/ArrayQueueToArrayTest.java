@@ -2,11 +2,12 @@ package queue;
 
 import java.util.List;
 import java.util.stream.Stream;
+import queue.ArrayQueueToArrayTest.ToArrayQueue;
 
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
-public class ArrayQueueToArrayTest extends ArrayQueueTest<ArrayQueueToArrayTest.ToArrayQueue> {
+public class ArrayQueueToArrayTest extends ArrayQueueTest<ToArrayQueue> {
     public ArrayQueueToArrayTest() {
         super(ToArrayQueue.class, ReferenceToArrayQueue::new);
     }

@@ -2,7 +2,7 @@ package queue;
 
 import java.util.Arrays;
 
-public class ArrayQueue {
+public class ArrayQueue extends AbstractQueue {
     private Object[] elements = new Object[2];
     private int start = 0, end = 0;
 

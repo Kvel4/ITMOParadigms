@@ -1,0 +1,51 @@
+package expression.operations;
+
+import expression.exceptions.DivisionByZeroException;
+import expression.exceptions.EvaluateException;
+import expression.exceptions.OverflowException;
+
+public class DoubleOperator implements Operator<Double> {
+    @Override
+    public Double add(Double a, Double b) {
+        return a + b;
+    }
+
+    @Override
+    public Double sub(Double a, Double b) {
+        return a - b;
+    }
+
+    @Override
+    public Double mul(Double a, Double b) {
+        return a * b;
+    }
+
+    @Override
+    public Double divide(Double a, Double b) {
+        if (b == 0) {
+            if (a < 0) {
+                return Double.NEGATIVE_INFINITY;
+            } else if (a == 0) {
+                return Double.NaN;
+            } else if (a > 0) {
+                return Double.POSITIVE_INFINITY;
+            }
+        }
+        return a / b;
+    }
+
+    @Override
+    public Double negate(Double a) {
+        return -a;
+    }
+
+    @Override
+    public Double parse(String s) {
+        return Double.parseDouble(s);
+    }
+
+    @Override
+    public Double valueOf(int a) {
+        return (double) a;
+    }
+}
