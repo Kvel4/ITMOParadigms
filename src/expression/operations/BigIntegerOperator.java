@@ -44,4 +44,19 @@ public class BigIntegerOperator implements Operator<BigInteger> {
     public BigInteger valueOf(int a) {
         return BigInteger.valueOf(a);
     }
+
+    @Override
+    public BigInteger min(BigInteger a, BigInteger b) {
+        return a.min(b);
+    }
+
+    @Override
+    public BigInteger max(BigInteger a, BigInteger b) {
+        return a.max(b);
+    }
+
+    @Override
+    public BigInteger count(BigInteger arg) {
+        return BigInteger.valueOf(arg.bitCount());
+    }
 }

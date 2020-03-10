@@ -48,4 +48,19 @@ public class DoubleOperator implements Operator<Double> {
     public Double valueOf(int a) {
         return (double) a;
     }
+
+    @Override
+    public Double min(Double a, Double b) {
+        return Math.min(a, b);
+    }
+
+    @Override
+    public Double max(Double a, Double b) {
+        return Math.max(a, b);
+    }
+
+    @Override
+    public Double count(Double arg) {
+        return (double) Long.bitCount(Double.doubleToLongBits(arg));
+    }
 }

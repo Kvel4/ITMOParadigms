@@ -82,11 +82,21 @@ class Lexer {
             case '\0':
                 readOperation(Token.END);
                 break;
-            case '<':
-                readOperation("<", Token.SHIFT_LEFT);
+            case 'c':
+                readOperation("ount", Token.COUNT);
                 break;
-            case '>':
-                readOperation(">", Token.SHIFT_RIGHT);
+            case 'm':
+                tokenText.append(ch);
+                nextChar();
+                switch (ch) {
+                    case 'i':
+                        readOperation("n", Token.MIN);
+                        break;
+                    case 'a':
+                        readOperation("x", Token.MAX);
+                        break;
+                    default: throw new IllegalCharacterException(data + " | " + "Illegal symbol '" + ch + "' at position " + position);
+                }
                 break;
             case 'x':
             case 'y':
@@ -120,7 +130,6 @@ class Lexer {
         for (char c : remainingPart.toCharArray()) {
             nextChar();
             tokenText.append(ch);
-            
             if (c != ch) {
                 throw new OperandMismatchException(data + " | " + "Illegal argument '" + tokenText.toString()
                         + "' at position: " + position);

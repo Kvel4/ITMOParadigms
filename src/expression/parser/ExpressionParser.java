@@ -13,6 +13,35 @@ public class ExpressionParser<T extends Number> implements Parser<T> {
         this.operator = operator;
     }
 
+    private TripleExpression<T> cmm() throws ParseException {
+        TripleExpression<T> prev = expression();
+        return cmmPrime(prev);
+    }
+
+    private TripleExpression<T> cmmPrime(TripleExpression<T> prev) throws ParseException {
+        TripleExpression<T> exp;
+        checkCorrectness();
+
+        switch (lex.getCurrentToken()) {
+            case MIN:
+                lex.nextToken();
+                exp = expression();
+                return cmmPrime(new Min<>(prev, exp, operator));
+            case MAX:
+                lex.nextToken();
+                exp = expression();
+                return cmmPrime(new Max<>(prev, exp, operator));
+            case NUMBER:
+                throw new IllegalStatementException("Unexpected number at position " + lex.getPosition());
+            case LPAREN:
+                throw new IllegalStatementException("Unexpected '(' at position " + lex.getPosition());
+            case VARIABLE:
+                throw new IllegalStatementException("Unexpected variable at position " + lex.getPosition());
+            default:
+                return prev;
+        }
+    }
+
     private TripleExpression<T> expression() throws ParseException {
         TripleExpression<T> prev = term();
         return expressionPrime(prev);
@@ -59,7 +88,6 @@ public class ExpressionParser<T extends Number> implements Parser<T> {
         }
     }
 
-
     private TripleExpression<T> factor() throws ParseException {
         TripleExpression<T> tmp;
         switch (lex.getCurrentToken()) {
@@ -74,16 +102,19 @@ public class ExpressionParser<T extends Number> implements Parser<T> {
                 return readNumber(false);
             case LPAREN:
                 lex.nextToken();
-                TripleExpression<T> shift = expression();
+                TripleExpression<T> cm = cmm();
                 if (lex.getCurrentToken() == Token.RPAREN) {
                     lex.nextToken();
-                    return shift;
+                    return cm;
                 }
                 throw new BracketMismatchException(lex.getData() + " | " + "Expected ')' at position " + lex.getPosition());
             case VARIABLE:
                 tmp = new Variable<>(lex.getTokenText(), operator);
                 lex.nextToken();
                 return tmp;
+            case COUNT:
+                lex.nextToken();
+                return new Count<>(cmm(), operator);
             default:
                 throw new OperandMismatchException(lex.getData() + " | " +
                         "Expected number or variable or expression in brackets at position " + lex.getPosition());
@@ -117,6 +148,6 @@ public class ExpressionParser<T extends Number> implements Parser<T> {
     public TripleExpression<T> parse(String expression) throws ParseException {
         lex = new Lexer(expression);
         lex.nextToken();
-        return expression();
+        return cmm();
     }
 }

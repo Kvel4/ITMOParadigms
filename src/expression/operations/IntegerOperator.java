@@ -72,4 +72,19 @@ public class IntegerOperator implements Operator<Integer> {
     public Integer valueOf(int a) {
         return a;
     }
+
+    @Override
+    public Integer min(Integer a, Integer b) {
+        return Math.min(a, b);
+    }
+
+    @Override
+    public Integer max(Integer a, Integer b) {
+        return Math.max(a, b);
+    }
+
+    @Override
+    public Integer count(Integer arg) {
+        return Integer.bitCount(arg);
+    }
 }
