@@ -6,8 +6,8 @@ public class ArrayQueueADT {
     private Object[] elements = new Object[2];
     private int start = 0, end = 0;
 
-    // Pre: queue != null
-    // Post: element added in queue, queue.lastElement == element
+    // Pre: i: start <= i <= end, queue[i] != null && element != null
+    // Post: queue.end += 1, queue[end] == element
     static public void enqueue(ArrayQueueADT queue, Object element) {
         if ((queue.end + 1) % queue.elements.length == queue.start) {
             queue.elements = Arrays.copyOf(toArray(queue), queue.elements.length * 2);
@@ -18,8 +18,8 @@ public class ArrayQueueADT {
         queue.end = (queue.end + 1) % queue.elements.length;
     }
 
-    // Pre: queue != null
-    // Post: queue.isEmpty() ? null : queue.firstElement
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue[start]
     static public Object element(ArrayQueueADT queue) {
         if (!isEmpty(queue)) {
             return queue.elements[queue.start];
@@ -27,8 +27,8 @@ public class ArrayQueueADT {
         return null;
     }
 
-    // Pre: queue != null
-    // Post: queue.isEmpty() ? null : queue.firstElement was deleted && return queue.firstElement
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue[start] && queue.start += 1
     static public Object dequeue(ArrayQueueADT queue) {
         if(!isEmpty(queue)) {
             Object tmp = queue.elements[queue.start];
@@ -39,8 +39,8 @@ public class ArrayQueueADT {
         return null;
     }
 
-    // Pre: queue != null
-    // Post: numbOfElements in queue
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue.end - queue.start
     static public int size(ArrayQueueADT queue) {
         if (queue.end >= queue.start) {
             return queue.end - queue.start;
@@ -48,22 +48,22 @@ public class ArrayQueueADT {
         return queue.elements.length - queue.start + queue.end;
     }
 
-    // Pre: queue != null
-    // Post: numberOfElements in queue == 0 ? true : false
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue.start == queue.end
     static public boolean isEmpty(ArrayQueueADT queue) {
         return queue.end == queue.start;
     }
 
-    // Pre: queue != null
-    // Post: queue is empty
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: queue.start = queue.end
     static public void clear(ArrayQueueADT queue) {
         queue.elements = new Object[queue.elements.length];
         queue.start = 0;
         queue.end = 0;
     }
 
-    // Pre: queue != null
-    // Post: Object[] == [queue.firstEl, queue.secondElement, ... , queue.lastElement]
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return new Object[queue.size] = [queue[start], queue[start+1], ... , queue[end]]
     static public Object[] toArray(ArrayQueueADT queue) {
         Object[] tmp = new Object[size(queue)];
         if (queue.start <= queue.end) {

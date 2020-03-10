@@ -1,31 +1,31 @@
 package queue;
 
 public interface Queue {
-    // Pre: queue != null
-    // Post: element added in queue, queue.lastElement == element
+    // Pre: i: start <= i <= end, queue[i] != null && element != null
+    // Post: queue.end += 1, queue[end] == element
     void enqueue(Object element);
 
-    // Pre: queue != null
-    // Post: queue.isEmpty() ? null : queue.firstElement
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue[start]
     Object element();
 
-    // Pre: queue != null
-    // Post: queue.isEmpty() ? null : queue.firstElement was deleted && return queue.firstElement
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue[start] && queue.start += 1
     Object dequeue();
 
-    // Pre: queue != null
-    // Post: numbOfElements in queue
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue.end - queue.start
     int size();
 
-    // Pre: queue != null
-    // Post: numberOfElements in queue == 0 ? true : false
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return queue.start == queue.end
     boolean isEmpty();
 
-    // Pre: queue != null
-    // Post: queue is empty
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: queue.start = queue.end
     void clear();
 
-    // Pre: queue != null
-    // Post: Object[] == [queue.firstEl, queue.secondElement, ... , queue.lastElement]
+    // Pre: start <= i <= end, queue[i] != null
+    // Post: return new Object[queue.size] = [queue[start], queue[start+1], ... , queue[end]]
     Object[] toArray();
 }
