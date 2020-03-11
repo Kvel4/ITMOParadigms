@@ -10,7 +10,9 @@ public class ArrayQueueADT {
     // Post: queue.end += 1, queue[end] == element
     static public void enqueue(ArrayQueueADT queue, Object element) {
         if ((queue.end + 1) % queue.elements.length == queue.start) {
-            queue.elements = Arrays.copyOf(toArray(queue), queue.elements.length * 2);
+            Object[] tmp = new Object[queue.elements.length * 2];
+            System.arraycopy(toArray(queue), 0, tmp, 0, size(queue));
+            queue.elements = tmp;
             queue.start = 0;
             queue.end = queue.elements.length / 2 - 1;
         }
@@ -21,22 +23,16 @@ public class ArrayQueueADT {
     // Pre: start <= i <= end, queue[i] != null
     // Post: return queue[start]
     static public Object element(ArrayQueueADT queue) {
-        if (!isEmpty(queue)) {
-            return queue.elements[queue.start];
-        }
-        return null;
+        return queue.elements[queue.start];
     }
 
     // Pre: start <= i <= end, queue[i] != null
     // Post: return queue[start] && queue.start += 1
     static public Object dequeue(ArrayQueueADT queue) {
-        if(!isEmpty(queue)) {
-            Object tmp = queue.elements[queue.start];
-            queue.elements[queue.start] = null;
-            queue.start = (queue.start + 1) % queue.elements.length;
-            return tmp;
-        }
-        return null;
+        Object tmp = queue.elements[queue.start];
+        queue.elements[queue.start] = null;
+        queue.start = (queue.start + 1) % queue.elements.length;
+        return tmp;
     }
 
     // Pre: start <= i <= end, queue[i] != null

@@ -19,18 +19,11 @@ public class LinkedQueue extends AbstractQueue {
 
     @Override
     public Object element() {
-        if (size == 0) {
-            return null;
-        }
         return start.value;
     }
 
     @Override
     public Object dequeue() {
-        if (size == 0) {
-            return null;
-        }
-
         Object tmp = start.value;
         start = start.next;
         size--;

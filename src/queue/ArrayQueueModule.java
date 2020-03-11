@@ -10,7 +10,9 @@ public class ArrayQueueModule {
     // Post: queue.end += 1, queue[end] == element
     static public void enqueue(Object element) {
         if ((end + 1) % elements.length == start) {
-            elements = Arrays.copyOf(toArray(), elements.length * 2);
+            Object[] tmp = new Object[elements.length * 2];
+            System.arraycopy(toArray(), 0, tmp, 0, size());
+            element = tmp;
             start = 0;
             end = elements.length / 2 - 1;
         }
@@ -21,22 +23,16 @@ public class ArrayQueueModule {
     // Pre: start <= i <= end, queue[i] != null
     // Post: return queue[start]
     static public Object element() {
-        if (!isEmpty()) {
-            return elements[start];
-        }
-        return null;
+        return elements[start];
     }
 
     // Pre: start <= i <= end, queue[i] != null
     // Post: return queue[start] && queue.start += 1
     static public Object dequeue() {
-        if(!isEmpty()) {
-            Object tmp = elements[start];
-            elements[start] = null;
-            start = (start + 1) % elements.length;
-            return tmp;
-        }
-        return null;
+        Object tmp = elements[start];
+        elements[start] = null;
+        start = (start + 1) % elements.length;
+        return tmp;
     }
 
     // Pre: start <= i <= end, queue[i] != null
